@@ -42,9 +42,10 @@ PasswordUtils.hashPassword("P@ssw0rd1").then((hashPassword) => {
     console.log(err)
 })
 
-PasswordUtils.compare("P@ssw0rd1", "$2b$10$8V2MS9wea3FlOQnF2UalO.SFiRtpstl9cuErn65oVN9oWCaGXC/vq").then((result) => {
+PasswordUtils.compare("P@ssw0rd1", "$2b$10$8V2MS9wea3FlOQnF2UalO.SFiRtpstl9cuErn65oVN9oWCaGXC/vq")
+  .then((result) => {
     console.log(result)
-}).catch((err) => {
-    console.log(err)
-})
+  }).catch((err) => {
+      console.log(err)
+  })
 */

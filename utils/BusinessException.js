@@ -3,11 +3,11 @@
  */
 class BusinessException extends Error {
   /**
-     * Constructor method
-     * @param {string} message - error message
-     * @param {string} errorCode - error code
-     * @param {number} statusCode - status code
-     */
+   * Constructor method
+   * @param {string} message - error message
+   * @param {string} errorCode - error code
+   * @param {number} statusCode - status code
+   */
   constructor(message, errorCode, statusCode) {
     super();
     this.message = message;
@@ -16,9 +16,9 @@ class BusinessException extends Error {
   }
 
   /**
-     * To String method to print the object
-     * @returns String
-     */
+   * To String method to print the object
+   * @returns String
+   */
   toString() {
     let message = '';
     if (this.errorCode) message += `Error Code ${this.errorCode}`;

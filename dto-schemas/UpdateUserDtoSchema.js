@@ -13,8 +13,8 @@ const {
  */
 const ERROR_MSG_MAPPING = {
   /**
-     * Emailid error message mapping constants
-     */
+   * Emailid error message mapping constants
+   */
   EMAIL: {
     'any.required': ErrorMsgConstants.EMAIL_ID_REQUIRED,
     'string.base': ErrorMsgConstants.INVALID_EMAIL_ID,
@@ -22,8 +22,8 @@ const ERROR_MSG_MAPPING = {
     default: ErrorMsgConstants.INVALID_EMAIL_ID,
   },
   /**
-     * Username error message mapping constants
-     */
+   * Username error message mapping constants
+   */
   USERNAME: {
     'string.base': ErrorMsgConstants.INVALID_USERNAME,
     'any.empty': ErrorMsgConstants.USERNAME_EMPTY,
@@ -33,16 +33,16 @@ const ERROR_MSG_MAPPING = {
     default: ErrorMsgConstants.INVALID_USERNAME,
   },
   /**
-     * Full Name error message mapping constants
-     */
+   * Full Name error message mapping constants
+   */
   FULL_NAME: {
     'string.base': ErrorMsgConstants.INVALID_FULL_NAME,
     'any.empty': ErrorMsgConstants.FULL_NAME_EMPTY,
     default: ErrorMsgConstants.INVALID_FULL_NAME,
   },
   /**
-     * Password error message mapping constant
-     */
+   * Password error message mapping constant
+   */
   PASSWORD: {
     'string.base': ErrorMsgConstants.INVALID_PASSWORD,
     'any.empty': ErrorMsgConstants.PASSWORD_EMPTY,

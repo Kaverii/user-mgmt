@@ -10,8 +10,8 @@ const USER_TABLE = process.env.USER_MGMT_TABLE;
 
 class UserMgmtDao {
   /**
-     * Method to get user
-     */
+   * Method to get user
+   */
   static async getUser(emailId) {
     const METHOD_NAME = 'UserMgmtDao::getUser';
     logger.debug(LOGGER_CODES.LOG001, METHOD_NAME);
@@ -37,8 +37,8 @@ class UserMgmtDao {
   }
 
   /**
-     * Method to register user
-     */
+   * Method to register user
+   */
   static async createUser(user) {
     const METHOD_NAME = 'UserMgmtDao::createUser';
     logger.debug(LOGGER_CODES.LOG001, METHOD_NAME);
@@ -64,8 +64,8 @@ class UserMgmtDao {
   }
 
   /**
-     * Method to update user
-     */
+   * Method to update user
+   */
   static async updateUser(user) {
     const METHOD_NAME = 'UserMgmtDao::updateUser';
     logger.debug(LOGGER_CODES.LOG001, METHOD_NAME);
@@ -104,8 +104,8 @@ class UserMgmtDao {
   }
 
   /**
-     * Method to delete user
-     */
+   * Method to delete user
+   */
   static async deleteUser(emailId) {
     const METHOD_NAME = 'UserMgmtDao::deleteUser';
     logger.debug(LOGGER_CODES.LOG001, METHOD_NAME);

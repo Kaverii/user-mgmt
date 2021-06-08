@@ -13,7 +13,9 @@ const getUser = async (event = {}) => {
   logger.debug(LOGGER_CODES.LOG001, METHOD_NAME);
   let response = {};
   try {
-    const { emailId } = event.pathParameters;
+    const {
+      emailId,
+    } = event.pathParameters;
     const result = await UserMgmtService.getUser(emailId);
     response = {
       statusCode: STATUS_CODES.CREATED,
@@ -90,7 +92,9 @@ const updateUser = async (event = {}) => {
   let response = {};
   try {
     const user = JSON.parse(event.body);
-    const { emailId } = event.pathParameters;
+    const {
+      emailId,
+    } = event.pathParameters;
     user.emailId = emailId;
     const result = await UserMgmtService.updateUser(user);
     response = {
@@ -129,7 +133,9 @@ const deleteUser = async (event = {}) => {
 
   let response = {};
   try {
-    const { emailId } = event.pathParameters;
+    const {
+      emailId,
+    } = event.pathParameters;
     await UserMgmtService.deleteUser(emailId);
     response = {
       statusCode: STATUS_CODES.UPDATED,

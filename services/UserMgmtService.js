@@ -89,7 +89,7 @@ class UserMgmtService {
     // On Valid User
     if (!validationResult.error) {
       let hashPassword;
-      if (user.password) (hashPassword = await PasswordUtils.hashPassword(user.password));
+      if (user.password)(hashPassword = await PasswordUtils.hashPassword(user.password));
       const userDao = new User(
         user.emailId,
         user.username,
