@@ -5,10 +5,11 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint '**/*.js?(x)'",
+    "lint:fix": "npm run lint -- --fix",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "deploy": "sh -ac '. .env.${NODE_ENV}; serverless deploy'",
-    "deploy:qa": "NODE_ENV=qa npm run deploy",
-    "deploy:dev": "NODE_ENV=dev npm run deploy"
+    "deploy": "serverless deploy",
+    "deploy:qa": "serverless deploy --stage qa",
+    "deploy:dev": "serverless deploy --stage dev"
   },
   "author": "Presidio",
   "license": "ISC",
