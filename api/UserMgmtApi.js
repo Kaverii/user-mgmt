@@ -1,6 +1,6 @@
 const logger = require('../utils/Logger');
-const LOGGER_CODES = require('../constants/LoggerCodeConstants');
-const STATUS_CODES = require('../constants/StatusCodeConstants');
+const LOGGER_CODES = require('../common/constants/LoggerCodeConstants');
+const STATUS_CODES = require('../common/constants/StatusCodeConstants');
 const UserMgmtService = require('../services/UserMgmtService');
 
 /**
@@ -18,7 +18,7 @@ const getUser = async (event = {}) => {
     } = event.pathParameters;
     const result = await UserMgmtService.getUser(emailId);
     response = {
-      statusCode: STATUS_CODES.CREATED,
+      statusCode: STATUS_CODES.SUCCESS,
       body: JSON.stringify({
         success: true,
         result,
@@ -98,7 +98,7 @@ const updateUser = async (event = {}) => {
     user.emailId = emailId;
     const result = await UserMgmtService.updateUser(user);
     response = {
-      statusCode: STATUS_CODES.SUCCESS,
+      statusCode: STATUS_CODES.UPDATED,
       body: JSON.stringify({
         success: true,
         result,
@@ -153,7 +153,6 @@ const deleteUser = async (event = {}) => {
       body: JSON.stringify({
         success: false,
         message: error.message,
-        input: event,
       }),
     };
     logger.info(LOGGER_CODES.LOG003, METHOD_NAME, response);

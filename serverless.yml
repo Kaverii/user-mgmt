@@ -7,11 +7,9 @@ provider:
   lambdaHashingVersion: 20201221
   tags:
     CreatedBy: Kaveri Jeevanantham
-  stage: dev
-  region: us-east-1
   environment:
-    USER_MGMT_TABLE: user-${opt:stage, self:provider.stage}
-    LOG_LEVEL: ${opt:logLevel}
+    USER_MGMT_TABLE: user-mgmt-${env:stage, self:provider.stage}
+    LOG_LEVEL: ${env:logLevel}
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -21,14 +19,14 @@ provider:
         - dynamodb:PutItem
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
-      Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.USER_MGMT_TABLE}"
+      Resource: "arn:aws:dynamodb:${env:region, self:provider.region}:*:table/${self:provider.environment.USER_MGMT_TABLE}"
 
 functions:
   registerUser:
     handler: api/UserMgmtApi.registerUser
     events:
       - http:
-          path: /register
+          path: /
           method: post
   getUser:
     handler: api/UserMgmtApi.getUser
@@ -41,7 +39,7 @@ functions:
     events:
       - http:
           path: /{emailId}
-          method: put
+          method: patch
   deleteUser:
     handler: api/UserMgmtApi.deleteUser
     events:
@@ -67,3 +65,6 @@ resources:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
         TableName: ${self:provider.environment.USER_MGMT_TABLE}
+
+plugins:
+  - serverless-dotenv-plugin

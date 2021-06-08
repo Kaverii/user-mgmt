@@ -1,9 +1,9 @@
-const ERROR_CODE_CONFIG = require('../constants/ErrorCodeConstants');
-const ERROR_MSGS = require('../constants/ErrorMsgConstants');
-const LOGGER_CODES = require('../constants/LoggerCodeConstants');
+const ERROR_CODE_CONFIG = require('../common/constants/ErrorCodeConstants');
+const ERROR_MSGS = require('../common/constants/ErrorMsgConstants');
+const LOGGER_CODES = require('../common/constants/LoggerCodeConstants');
 
 const Logger = require('../utils/Logger');
-const BusinessException = require('../utils/BusinessException');
+const BusinessException = require('../common/exception/BusinessException');
 const PasswordUtils = require('../utils/PasswordUtils');
 
 const RegisterUserDtoSchema = require('../dto-schemas/RegisterUserDtoSchema');

@@ -1,8 +1,8 @@
 const bcrypt = require('bcryptjs');
 const Logger = require('./Logger');
-const ERROR_CODE_CONFIG = require('../constants/ErrorCodeConstants');
-const LOGGER_CODES = require('../constants/LoggerCodeConstants');
-const SystemException = require('./SystemException');
+const ERROR_CODE_CONFIG = require('../common/constants/ErrorCodeConstants');
+const LOGGER_CODES = require('../common/constants/LoggerCodeConstants');
+const SystemException = require('../common/exception/SystemException');
 
 const SALT_ROUNDS = 10;
 

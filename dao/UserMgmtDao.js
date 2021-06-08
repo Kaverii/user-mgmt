@@ -1,9 +1,9 @@
 // eslint-disable-next-line import/no-unresolved
 const AWS = require('aws-sdk');
 const logger = require('../utils/Logger');
-const LOGGER_CODES = require('../constants/LoggerCodeConstants');
-const ERROR_CODE_CONFIG = require('../constants/ErrorCodeConstants');
-const SystemException = require('../utils/SystemException');
+const LOGGER_CODES = require('../common/constants/LoggerCodeConstants');
+const ERROR_CODE_CONFIG = require('../common/constants/ErrorCodeConstants');
+const SystemException = require('../common/exception/SystemException');
 
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 const USER_TABLE = process.env.USER_MGMT_TABLE;

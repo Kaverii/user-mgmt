@@ -1,12 +1,12 @@
 const Joi = require('joi');
-const ErrorMsgConstants = require('../constants/ErrorMsgConstants');
+const ErrorMsgConstants = require('../common/constants/ErrorMsgConstants');
 const ValidationUtils = require('../utils/ValidationUtils');
 
 const {
   USERNAME_VALIDATION,
   PASSWORD_PATTERN,
   USER_FIELDS,
-} = require('../constants/CommonConstants');
+} = require('../common/constants/CommonConstants');
 
 /**
  * Validation Error message mapping constants
