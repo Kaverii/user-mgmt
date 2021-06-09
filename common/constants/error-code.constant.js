@@ -6,6 +6,8 @@ const ERROR_CODE_CONFIG = {
   UM4001E: 'UM4001E: User Validation Failed {0}',
   UM4002E: 'UM4002E: Invalid User Id {0}',
   UM4003E: 'UM4003E: Invalid credentials!',
+  // Forbidden
+  UM4031E: 'UM4031E: User Not Authorized',
 
   // System Exceptions
   UM5001E: 'UM5001E: Exception during password hasing {0}',

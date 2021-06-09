@@ -13,6 +13,7 @@ provider:
     USER_TABLE: users-${self:provider.stage}
     LOG_LEVEL: ${env:LOG_LEVEL, 'trace'}
     USER_EMAIL_ID_INDEX: user_email_id_index
+    JWT_SECRET:  ${env:JWT_SECRET}
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -22,9 +23,13 @@ provider:
         - dynamodb:PutItem
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
-      Resource: "arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.USER_TABLE}"
+      Resource: 
+        - "arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.USER_TABLE}"
+        - "arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.USER_TABLE}/index/user_email_id_index"
 
 functions:
+  userAuth:
+    handler: auth/user-auth.userAuthGuard
   registerUser:
     handler: api/UserApi.registerUser
     events:
@@ -37,18 +42,21 @@ functions:
       - http:
           path: /{id}
           method: get
+          authorizer: userAuth
   updateUser:
     handler: api/UserApi.updateUser
     events:
       - http:
           path: /{id}
           method: patch
+          authorizer: userAuth
   deleteUser:
     handler: api/UserApi.deleteUser
     events:
       - http:
           path: /{id}
           method: delete
+          authorizer: userAuth
   loginUser:
     handler: api/UserApi.loginUser
     events:

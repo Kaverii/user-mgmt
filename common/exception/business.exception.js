@@ -9,7 +9,7 @@ class BusinessException extends Error {
    * @param {string} errorCode - error code
    * @param {string} message - error message
    */
-  constructor(message, errorCode) {
+  constructor(errorCode, message) {
     super();
     this.errorCode = errorCode;
     this.message = message;

@@ -1,6 +1,6 @@
 const uuid = require('uuid').v1;
 
-const ERROR_CODE_CONFIG = require('../common/constants/error-code.constant');
+const ERROR_CODES = require('../common/constants/error-code.constant');
 const format = require('../utils/format.util');
 const logger = require('../utils/logger.util');
 const PasswordUtils = require('../utils/password.util');
@@ -26,7 +26,7 @@ class UserService {
       logger.error('In UserService::getUser, invalid user');
       throw new BusinessException(
         'UM4002E',
-        format(ERROR_CODE_CONFIG.UM4002E, id),
+        format(ERROR_CODES.UM4002E, id),
       );
     }
     logger.trace('Exit UserMgmtAPI::getUser Method Execution Result: %o', result);
@@ -51,7 +51,7 @@ class UserService {
       logger.error('In UserService::registerUser, Validation Error on User %o', user);
       throw new BusinessException(
         'UM4001E',
-        format(ERROR_CODE_CONFIG.UM4001E, errorMsgs),
+        format(ERROR_CODES.UM4001E, errorMsgs),
       );
     }
     // On Valid User
@@ -85,7 +85,7 @@ class UserService {
       logger.error('In UserService::updateUser, Validation Error on User %o', user);
       throw new BusinessException(
         'UM4001E',
-        format(ERROR_CODE_CONFIG.UM4001E, errorMsgs),
+        format(ERROR_CODES.UM4001E, errorMsgs),
       );
     }
 
@@ -133,24 +133,25 @@ class UserService {
       logger.error('In UserService::loginUser, Validation Error on User %o', user);
       throw new BusinessException(
         'UM4001E',
-        format(ERROR_CODE_CONFIG.UM4001E, errorMsgs),
+        format(ERROR_CODES.UM4001E, errorMsgs),
       );
     }
     // On Valid User DTO
     const result = await UserDao.getUserByEmailId(user.emailId);
+    const hashPassword = result && result.Items && result.Items[0] && result.Items[0].password;
 
-    if (!result || !result.Item
-      || await PasswordUtils.compare(user.password, result.Item.password)) {
+    if (!hashPassword
+      || !(await PasswordUtils.compare(user.password, hashPassword))) {
       // Invalid User
       throw new BusinessException(
         'UM4003E',
-        ERROR_CODE_CONFIG.UM4003E,
+        ERROR_CODES.UM4003E,
       );
     }
 
-    const token = JwtUtils.signToken(result.Item.id);
+    const token = JwtUtils.signToken(result.Items[0].id);
 
-    logger.trace('Exit UserMgmtAPI::loginUser Method Execution with Result: %o', result);
+    logger.trace('Exit UserMgmtAPI::loginUser Method Execution with Result: %o', token);
     return { token };
   }
 }

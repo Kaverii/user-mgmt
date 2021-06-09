@@ -34,18 +34,18 @@ console.log(JSON.stringify(response));
  * Password Util Test
  */
 /*
-const PasswordUtils = require("./utils/PasswordUtils");
+const PasswordUtils = require('./utils/password.util');
 
-PasswordUtils.hashPassword("P@ssw0rd1").then((hashPassword) => {
-    console.log(hashPassword)
+PasswordUtils.hashPassword('P@ssw0rd').then((hashPassword) => {
+  console.log(hashPassword);
 }).catch((err) => {
-    console.log(err)
-})
+  console.log(err);
+});
 
-PasswordUtils.compare("P@ssw0rd1", "$2b$10$8V2MS9wea3FlOQnF2UalO.SFiRtpstl9cuErn65oVN9oWCaGXC/vq")
+PasswordUtils.compare('P@ssw0rd', '$2a$10$vHLaisPq0Q1Rb3wZi2OneOoiWCgPR056/FXnaWmJT2kUC6gKAJUVW')
   .then((result) => {
-    console.log(result)
+    console.log(result);
   }).catch((err) => {
-      console.log(err)
-  })
+    console.log(err);
+  });
 */

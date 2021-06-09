@@ -52,10 +52,10 @@ class UserDao {
       TableName: USER_TABLE,
       IndexName: USER_EMAIL_ID_INDEX,
       KeyConditionExpression: 'emailId = :emailId',
-      ExpressionAttributeValues: { ':emailId': { S: emailId } },
+      ExpressionAttributeValues: { ':emailId': emailId },
     };
     return new Promise((resolve, reject) => {
-      const awsRequest = dynamoDb.get(params);
+      const awsRequest = dynamoDb.query(params);
       awsRequest.promise().then(
         (response) => {
           logger.trace('Exit UserDao::getUserByEmailId Method Execution with Result %o', response);

@@ -42,7 +42,7 @@ class PasswordUtils {
    * @returns {Promise<boolean>} - Promise resolves true | false or rejects SystemException
    */
   static compare(plainPassword, hashPassword) {
-    logger.trace('Entered PasswordUtils::compare Method Execution %s', plainPassword);
+    logger.trace('Entered PasswordUtils::compare Method Execution with password: %s hashPassword%s', plainPassword, hashPassword);
 
     return new Promise((resolve, reject) => {
       bcrypt.compare(plainPassword, hashPassword, (err, result) => {

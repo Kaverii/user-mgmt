@@ -10,7 +10,7 @@ class SystemException extends Error {
    * @param {string} message - error message
    * @param {string} statusCode - status code
    */
-  constructor(message, errorCode, statusCode = STATUS_CODES.INTERNAL_SERVER_ERROR) {
+  constructor(errorCode, message, statusCode = STATUS_CODES.INTERNAL_SERVER_ERROR) {
     super();
     this.errorCode = errorCode;
     this.message = message;

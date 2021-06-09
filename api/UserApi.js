@@ -91,7 +91,7 @@ const updateUser = async (event = {}) => {
     userBean.id = id;
     const result = await UserService.updateUser(userBean);
     response = {
-      statusCode: STATUS_CODES.UPDATED,
+      statusCode: STATUS_CODES.SUCCESS,
       body: JSON.stringify({
         success: true,
         result,
@@ -129,7 +129,7 @@ const deleteUser = async (event = {}) => {
 
     await UserService.deleteUser(id);
     response = {
-      statusCode: STATUS_CODES.UPDATED,
+      statusCode: STATUS_CODES.SUCCESS,
       body: JSON.stringify({
         success: true,
       }),
@@ -159,7 +159,7 @@ const loginUser = async (event = {}) => {
 
     const result = await UserService.loginUser(userBean);
     response = {
-      statusCode: STATUS_CODES.UPDATED,
+      statusCode: STATUS_CODES.SUCCESS,
       body: JSON.stringify({
         success: true,
         ...result,
