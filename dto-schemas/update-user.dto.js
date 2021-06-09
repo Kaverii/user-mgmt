@@ -1,17 +1,23 @@
 const Joi = require('joi');
-const ErrorMsgConstants = require('../common/constants/ErrorMsgConstants');
-const ValidationUtils = require('../utils/ValidationUtils');
+const ErrorMsgConstants = require('../common/constants/error-msg.constant');
+const ValidationUtils = require('../utils/validation.util');
 
 const {
   USERNAME_VALIDATION,
   PASSWORD_PATTERN,
   USER_FIELDS,
-} = require('../common/constants/CommonConstants');
+} = require('../common/constants/common.constant');
 
 /**
  * Validation Error message mapping constants
  */
 const ERROR_MSG_MAPPING = {
+  ID: {
+    'any.required': ErrorMsgConstants.ID_REQUIRED,
+    'string.base': ErrorMsgConstants.INVALID_ID,
+    'any.empty': ErrorMsgConstants.ID_EMPTY,
+    default: ErrorMsgConstants.INVALID_ID,
+  },
   /**
    * Emailid error message mapping constants
    */
@@ -25,7 +31,6 @@ const ERROR_MSG_MAPPING = {
    * Username error message mapping constants
    */
   USERNAME: {
-    'any.required': ErrorMsgConstants.USERNAME_REQUIRED,
     'string.base': ErrorMsgConstants.INVALID_USERNAME,
     'any.empty': ErrorMsgConstants.USERNAME_EMPTY,
     'string.min': ErrorMsgConstants.USERNAME_LENGTH_NOT_SATISFIED,
@@ -37,7 +42,6 @@ const ERROR_MSG_MAPPING = {
    * Full Name error message mapping constants
    */
   FULL_NAME: {
-    'any.required': ErrorMsgConstants.FULL_NAME_REQUIRED,
     'string.base': ErrorMsgConstants.INVALID_FULL_NAME,
     'any.empty': ErrorMsgConstants.FULL_NAME_EMPTY,
     default: ErrorMsgConstants.INVALID_FULL_NAME,
@@ -46,7 +50,6 @@ const ERROR_MSG_MAPPING = {
    * Password error message mapping constant
    */
   PASSWORD: {
-    'any.required': ErrorMsgConstants.PASSWORD_REQUIRED,
     'string.base': ErrorMsgConstants.INVALID_PASSWORD,
     'any.empty': ErrorMsgConstants.PASSWORD_EMPTY,
     'object.pattern.match': ErrorMsgConstants.PASSWORD_PATTERN_NOT_MATCHED,
@@ -56,9 +59,14 @@ const ERROR_MSG_MAPPING = {
 };
 
 /**
- * Register User Schema to validate given user object
+ * Update User Schema to validate given user object
  */
-const RegisterUserDTOSchema = Joi.object({
+const UpdateUserDTOSchema = Joi.object({
+  [USER_FIELDS.ID]: Joi.string()
+    .required()
+    .error(
+      ValidationUtils.generateErrorValidationFunc(ERROR_MSG_MAPPING.ID),
+    ),
   [USER_FIELDS.EMAIL_ID]: Joi.string()
     .required()
     .email({
@@ -68,7 +76,6 @@ const RegisterUserDTOSchema = Joi.object({
       ValidationUtils.generateErrorValidationFunc(ERROR_MSG_MAPPING.EMAIL),
     ),
   [USER_FIELDS.USERNAME]: Joi.string()
-    .required()
     .alphanum()
     .min(USERNAME_VALIDATION.MIN_LENGTH)
     .max(USERNAME_VALIDATION.MAX_LENGTH)
@@ -76,16 +83,14 @@ const RegisterUserDTOSchema = Joi.object({
       ValidationUtils.generateErrorValidationFunc(ERROR_MSG_MAPPING.USERNAME),
     ),
   [USER_FIELDS.FULL_NAME]: Joi.string()
-    .required()
     .error(
       ValidationUtils.generateErrorValidationFunc(ERROR_MSG_MAPPING.FULL_NAME),
     ),
   [USER_FIELDS.PASSWORD]: Joi.string()
-    .required()
     .pattern(new RegExp(PASSWORD_PATTERN))
     .error(
       ValidationUtils.generateErrorValidationFunc(ERROR_MSG_MAPPING.PASSWORD),
     ),
 });
 
-module.exports = RegisterUserDTOSchema;
+module.exports = UpdateUserDTOSchema;

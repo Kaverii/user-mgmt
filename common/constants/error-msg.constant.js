@@ -4,6 +4,11 @@
 const ERROR_MSGS = {
   INVALID_USER: 'Invalid User',
 
+  // ID Error Messages
+  INVALID_ID: 'Invalid id!',
+  ID_REQUIRED: 'Id is required!',
+  ID_EMPTY: 'Id is empty!',
+
   // Emailid Error Messages
   INVALID_EMAIL_ID: 'Email id is invalid!',
   EMAIL_ID_REQUIRED: 'Email id is required!',

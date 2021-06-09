@@ -5,11 +5,11 @@ const LOG_LEVEL = process.env.LOG_LEVEL || 'trace';
 /**
  * Logger Configuration
  */
-const Logger = pino({
+const logger = pino({
   level: LOG_LEVEL,
   prettyPrint: {
     colorize: true,
   },
 });
 
-module.exports = Logger;
+module.exports = logger;
