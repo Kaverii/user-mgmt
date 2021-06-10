@@ -53,13 +53,27 @@ class UserService {
       const errorMsgs = validationResult.error.details.map(
         (error) => error.message,
       );
-      logger.error('In UserService::registerUser, Validation Error on User %o', user);
+      logger.info('In UserService::registerUser, Validation Error on User %o', user);
       throw new BusinessException(
         'UM4001E',
         format(ERROR_CODES.UM4001E, errorMsgs),
       );
     }
     // On Valid User
+    const existingUser = await UserDao.getUserByEmailId(user.emailId);
+
+    // User Already present with emailid
+    if (existingUser
+      && existingUser.Items
+      && existingUser.Items[0]
+      && existingUser.Items[0].emailId) {
+      logger.info('In UserService::registerUser, User already present with same emailid  %o', user);
+      throw new BusinessException(
+        'UM4004E',
+        format(ERROR_CODES.UM4004E, existingUser.Items[0].emailId),
+      );
+    }
+
     const hashPassword = await PasswordUtils.hashPassword(user.password);
     const userDao = {
       ...user,
@@ -127,6 +141,8 @@ class UserService {
 
   /**
    * Method to login user
+   * @param {object} user - user object
+   * @returns result
    */
   static async loginUser(user = {}) {
     logger.trace('Entered UserService::loginUser Method Execution %o', user);
