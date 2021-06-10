@@ -1,11 +1,12 @@
 const uuid = require('uuid').v1;
 
 const ERROR_CODES = require('../common/constants/error-code.constant');
+const BusinessException = require('../common/exception/business.exception');
+
 const format = require('../utils/format.util');
 const logger = require('../utils/logger.util');
 const PasswordUtils = require('../utils/password.util');
 const JwtUtils = require('../utils/jwt.util');
-const BusinessException = require('../common/exception/business.exception');
 
 const RegisterUserDtoSchema = require('../dto-schemas/register-user.dto');
 const UpdateUserDTOSchema = require('../dto-schemas/update-user.dto');
@@ -22,6 +23,7 @@ class UserService {
   static async getUser(id) {
     logger.trace('Entered UserService::getUser Method Execution %s', id);
     const result = await UserDao.getUserById(id);
+
     if (!result.Item) {
       logger.error('In UserService::getUser, invalid user');
       throw new BusinessException(
@@ -29,8 +31,11 @@ class UserService {
         format(ERROR_CODES.UM4002E, id),
       );
     }
-    logger.trace('Exit UserMgmtAPI::getUser Method Execution Result: %o', result);
-    return result;
+    const user = result.Item;
+    delete user.password;
+    logger.debug('In UserService::getUser, return value: %o', user);
+    logger.trace('Exit UserMgmtAPI::getUser Method Execution Result: %o', user);
+    return user;
   }
 
   /**
@@ -62,7 +67,9 @@ class UserService {
       password: hashPassword,
     };
     const result = await UserDao.createUser(userDao);
-    logger.trace('Exit UserMgmtAPI::registerUser Method Execution with Result: %o', result);
+    delete result.password;
+    logger.debug('In UserService::registerUser, return value: %o', result);
+    logger.trace('Exit UserService::registerUser Method Execution with Result: %o', result);
     return result;
   }
 
@@ -98,7 +105,9 @@ class UserService {
     }
     await this.getUser(userDao.id);
     const updatedUser = await UserDao.updateUser(userDao);
-    logger.trace('Exit UserMgmtAPI::registerUser Method Execution with Result: %o', updatedUser);
+    delete updatedUser.password;
+    logger.debug('In UserService::updateUser, return value: %o', updatedUser);
+    logger.trace('Exit UserService::updateUser Method Execution with Result: %o', updatedUser);
     return updatedUser;
   }
 
@@ -111,7 +120,8 @@ class UserService {
     logger.trace('Entered UserService::deleteUser Method Execution %s', id);
     await this.getUser(id);
     const result = await UserDao.deleteUser(id);
-    logger.trace('Exit UserMgmtAPI::deleteUser Method Execution Result: %o', result);
+    logger.debug('In UserService::deleteUser, return value %o', result);
+    logger.trace('Exit UserService::deleteUser Method Execution Result: %o', result);
     return result;
   }
 
@@ -151,7 +161,8 @@ class UserService {
 
     const token = JwtUtils.signToken(result.Items[0].id);
 
-    logger.trace('Exit UserMgmtAPI::loginUser Method Execution with Result: %o', token);
+    logger.debug('In UserService::loginUser, return value %o', token);
+    logger.trace('Exit UserService::loginUser Method Execution with Result: %o', token);
     return { token };
   }
 }

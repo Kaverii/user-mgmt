@@ -29,7 +29,7 @@ provider:
 
 functions:
   userAuth:
-    handler: auth/user-auth.userAuthGuard
+    handler: auth/user-auth.userAuth
   registerUser:
     handler: api/UserApi.registerUser
     events:

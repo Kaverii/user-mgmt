@@ -30,7 +30,21 @@ const PASSWORD_SALT_ROUNDS = 10;
 /**
  * JWT Constants
  */
-const JWT_EXPIRATION_TIME = 2 * 24 * 60 * 60; // expires in 2 days
+const JWT_EXPIRATION_TIME = 172800; // Expires in 2 days. Count mentioned in seconds
+
+/**
+ * Authorizer constants
+ */
+const AUTH_CONSTANTS = {
+  POLICY: {
+    VERSION: '2012-10-17',
+    STATEMENT_ACTION: 'execute-api:Invoke',
+    STATEMENT_EFFECT: {
+      ALLOW: 'Allow',
+      DENY: 'Deny',
+    },
+  },
+};
 
 module.exports = {
   USERNAME_VALIDATION,
@@ -38,4 +52,5 @@ module.exports = {
   USER_FIELDS,
   PASSWORD_SALT_ROUNDS,
   JWT_EXPIRATION_TIME,
+  AUTH_CONSTANTS,
 };

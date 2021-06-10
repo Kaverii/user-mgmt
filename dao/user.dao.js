@@ -1,5 +1,6 @@
 const ERROR_CODE_CONFIG = require('../common/constants/error-code.constant');
 const SystemException = require('../common/exception/system.exception');
+
 const logger = require('../utils/logger.util');
 const format = require('../utils/format.util');
 const DBUtils = require('../utils/db.util');

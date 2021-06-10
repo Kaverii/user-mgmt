@@ -14,7 +14,7 @@ const getUser = async (event = {}) => {
     const {
       id,
     } = event.pathParameters;
-    logger.trace('Entered UserApi::getUser Method Execution %s', id);
+    logger.trace('Entered UserApi::getUser Method Execution Id: %s Event %o', id, event);
     const result = await UserService.getUser(id);
     response = {
       statusCode: STATUS_CODES.SUCCESS,

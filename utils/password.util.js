@@ -1,10 +1,11 @@
 const bcrypt = require('bcryptjs');
-const logger = require('./logger.util');
-const format = require('./format.util');
+
 const ERROR_CODE_CONFIG = require('../common/constants/error-code.constant');
 const { PASSWORD_SALT_ROUNDS } = require('../common/constants/common.constant');
-
 const SystemException = require('../common/exception/system.exception');
+
+const logger = require('./logger.util');
+const format = require('./format.util');
 
 /**
  * Password Utils using bcrypt.

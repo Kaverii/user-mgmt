@@ -12,6 +12,9 @@ const {
  * Validation Error message mapping constants
  */
 const ERROR_MSG_MAPPING = {
+  /**
+   * Id Error Message mapping
+   */
   ID: {
     'any.required': ErrorMsgConstants.ID_REQUIRED,
     'string.base': ErrorMsgConstants.INVALID_ID,
@@ -22,7 +25,6 @@ const ERROR_MSG_MAPPING = {
    * Emailid error message mapping constants
    */
   EMAIL: {
-    'any.required': ErrorMsgConstants.EMAIL_ID_REQUIRED,
     'string.base': ErrorMsgConstants.INVALID_EMAIL_ID,
     'any.empty': ErrorMsgConstants.EMAIL_ID_EMPTY,
     default: ErrorMsgConstants.INVALID_EMAIL_ID,
@@ -68,7 +70,6 @@ const UpdateUserDTOSchema = Joi.object({
       ValidationUtils.generateErrorValidationFunc(ERROR_MSG_MAPPING.ID),
     ),
   [USER_FIELDS.EMAIL_ID]: Joi.string()
-    .required()
     .email({
       minDomainSegments: 2,
     })
