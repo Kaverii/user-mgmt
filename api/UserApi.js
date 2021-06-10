@@ -115,7 +115,7 @@ const updateUser = async (event = {}) => {
 };
 
 /**
- * Method to delete user api
+ * Api to delete user by id
  * @param {object} event
  * @returns {object} Response
  */
@@ -151,6 +151,11 @@ const deleteUser = async (event = {}) => {
   }
 };
 
+/**
+ * Api to login user
+ * @param {object} event
+ * @returns {object} Response
+ */
 const loginUser = async (event = {}) => {
   let response = {};
   try {
