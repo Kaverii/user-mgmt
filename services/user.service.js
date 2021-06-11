@@ -8,11 +8,13 @@ const logger = require('../utils/logger.util');
 const PasswordUtils = require('../utils/password.util');
 const JwtUtils = require('../utils/jwt.util');
 
-const RegisterUserDtoSchema = require('../dto-schemas/register-user.dto');
-const UpdateUserDTOSchema = require('../dto-schemas/update-user.dto');
-const LoginUserDTOSchema = require('../dto-schemas/login-user.dto');
-
 const UserDao = require('../dao/user.dao');
+
+const {
+  RegisterUserDtoSchema,
+  LoginUserDtoSchema,
+  UpdateUserDtoSchema,
+} = require('../schema/user.dto');
 
 class UserService {
   /**
@@ -21,11 +23,11 @@ class UserService {
    * @returns Promise<any> - result or exception
    */
   static async getUser(id) {
-    logger.trace('Entered UserService::getUser Method Execution %s', id);
+    logger.trace('Enter UserService:getUser Service, Id: %s', id);
     const result = await UserDao.getUserById(id);
 
     if (!result.Item) {
-      logger.error('In UserService::getUser, invalid user');
+      logger.error('In UserService:getUser Service, invalid user');
       throw new BusinessException(
         'UM4002E',
         format(ERROR_CODES.UM4002E, id),
@@ -33,27 +35,28 @@ class UserService {
     }
     const user = result.Item;
     delete user.password;
-    logger.debug('In UserService::getUser, return value: %o', user);
-    logger.trace('Exit UserMgmtAPI::getUser Method Execution Result: %o', user);
+    logger.trace('Exit UserService:getUser Service, Result: %o', user);
     return user;
   }
 
   /**
    * Method to register user
+   * @param {object} user
+   * @returns {Promise<object>} updated user
    */
   static async registerUser(user = {}) {
-    logger.trace('Entered UserService::registerUser Method Execution %o', user);
+    logger.trace('Enter UserService:registerUser Service, User: %o', user);
     const validationResult = RegisterUserDtoSchema.validate(user, {
       abortEarly: false,
     });
-    logger.debug('In UserService::registerUser, DTO validation result %o', validationResult);
+    logger.debug('In UserService:registerUser Service, DTO validation result %o', validationResult);
 
     if (validationResult.error) {
       // On Invalid User
       const errorMsgs = validationResult.error.details.map(
         (error) => error.message,
       );
-      logger.info('In UserService::registerUser, Validation Error on User %o', user);
+      logger.info('In UserService:registerUser Service, Validation Error on User %o', user);
       throw new BusinessException(
         'UM4001E',
         format(ERROR_CODES.UM4001E, errorMsgs),
@@ -67,7 +70,7 @@ class UserService {
       && existingUser.Items
       && existingUser.Items[0]
       && existingUser.Items[0].emailId) {
-      logger.info('In UserService::registerUser, User already present with same emailid  %o', user);
+      logger.info('In UserService:registerUser Service, User already present with same emailid  %o', user);
       throw new BusinessException(
         'UM4004E',
         format(ERROR_CODES.UM4004E, existingUser.Items[0].emailId),
@@ -82,8 +85,7 @@ class UserService {
     };
     const result = await UserDao.createUser(userDao);
     delete result.password;
-    logger.debug('In UserService::registerUser, return value: %o', result);
-    logger.trace('Exit UserService::registerUser Method Execution with Result: %o', result);
+    logger.trace('Exit UserService:registerUser Service, Result: %o', result);
     return result;
   }
 
@@ -93,17 +95,17 @@ class UserService {
    * @returns {Promise<object>} updated user
    */
   static async updateUser(user = {}) {
-    logger.trace('Entered UserService::updateUser Method Execution %o', user);
-    const validationResult = UpdateUserDTOSchema.validate(user, {
+    logger.trace('Enter UserService:updateUser Service, User: %o', user);
+    const validationResult = UpdateUserDtoSchema.validate(user, {
       abortEarly: false,
     });
-    logger.debug('In UserService::updateUser, DTO validation result %o', validationResult);
+    logger.debug('In UserService:updateUser Service, DTO validation result %o', validationResult);
     if (validationResult.error) {
       // On Invalid User
       const errorMsgs = validationResult.error.details.map(
         (error) => error.message,
       );
-      logger.error('In UserService::updateUser, Validation Error on User %o', user);
+      logger.error('In UserService:updateUser Service, Validation Error on User %o', user);
       throw new BusinessException(
         'UM4001E',
         format(ERROR_CODES.UM4001E, errorMsgs),
@@ -120,8 +122,7 @@ class UserService {
     await this.getUser(userDao.id);
     const updatedUser = await UserDao.updateUser(userDao);
     delete updatedUser.password;
-    logger.debug('In UserService::updateUser, return value: %o', updatedUser);
-    logger.trace('Exit UserService::updateUser Method Execution with Result: %o', updatedUser);
+    logger.trace('Exit UserService:updateUser Service, Result: %o', updatedUser);
     return updatedUser;
   }
 
@@ -131,11 +132,10 @@ class UserService {
    * @returns result
    */
   static async deleteUser(id) {
-    logger.trace('Entered UserService::deleteUser Method Execution %s', id);
+    logger.trace('Enter UserService:deleteUser Service, ID: %s', id);
     await this.getUser(id);
     const result = await UserDao.deleteUser(id);
-    logger.debug('In UserService::deleteUser, return value %o', result);
-    logger.trace('Exit UserService::deleteUser Method Execution Result: %o', result);
+    logger.trace('Exit UserService:deleteUser Service, Result: %o', result);
     return result;
   }
 
@@ -145,18 +145,18 @@ class UserService {
    * @returns result
    */
   static async loginUser(user = {}) {
-    logger.trace('Entered UserService::loginUser Method Execution %o', user);
-    const validationResult = LoginUserDTOSchema.validate(user, {
+    logger.trace('Enter UserService:loginUser Service, User: %o', user);
+    const validationResult = LoginUserDtoSchema.validate(user, {
       abortEarly: false,
     });
-    logger.debug('In UserService::loginUser, DTO validation result %o', validationResult);
+    logger.debug('In UserService:loginUser Service, DTO validation result %o', validationResult);
 
     if (validationResult.error) {
       // On Invalid User DTO
       const errorMsgs = validationResult.error.details.map(
         (error) => error.message,
       );
-      logger.error('In UserService::loginUser, Validation Error on User %o', user);
+      logger.error('In UserService:loginUser Service, Validation Error on User %o', user);
       throw new BusinessException(
         'UM4001E',
         format(ERROR_CODES.UM4001E, errorMsgs),
@@ -177,8 +177,7 @@ class UserService {
 
     const token = JwtUtils.signToken(result.Items[0].id);
 
-    logger.debug('In UserService::loginUser, return value %o', token);
-    logger.trace('Exit UserService::loginUser Method Execution with Result: %o', token);
+    logger.trace('Exit UserService:loginUser Service, Result: %o', token);
     return { token };
   }
 }

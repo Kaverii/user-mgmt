@@ -11,6 +11,7 @@ const ERROR_CODE_CONFIG = {
   // System Exceptions
   UM5001E: 'UM5001E: Exception during password hasing {0}',
   UM5002E: 'UM5002E: DB Query Execution Error {0}',
+  UM5003E: 'UM5003E: Exception while signing Jwt Token with error {0}',
 };
 
 module.exports = ERROR_CODE_CONFIG;

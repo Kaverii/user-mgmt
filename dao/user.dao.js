@@ -6,7 +6,6 @@ const format = require('../utils/format.util');
 const DBUtils = require('../utils/db.util');
 
 const dynamoDb = DBUtils.getConnection();
-
 const { USER_TABLE, USER_EMAIL_ID_INDEX } = process.env;
 
 class UserDao {
@@ -16,7 +15,7 @@ class UserDao {
    * @returns {Promise<any>} - user object as result | db exception
    */
   static async getUserById(id) {
-    logger.trace('Entered UserDao::getUserById Method Execution %s', id);
+    logger.trace('Enter UserDao:getUserById DAO, Id: %s', id);
     const params = {
       TableName: USER_TABLE,
       Key: {
@@ -27,11 +26,11 @@ class UserDao {
       const awsRequest = dynamoDb.get(params);
       awsRequest.promise().then(
         (response) => {
-          logger.trace('Exit UserDao::getUserById Method Execution with Result %o', response);
+          logger.trace('Exit UserDao:getUserById DAO, Response: %o', response);
           resolve(response);
         },
         (error) => {
-          logger.error('In UserDao::getUserById, DB Error: %o', error);
+          logger.error('In UserDao:getUserById DAO, DB Error: %o', error);
           reject(new SystemException(
             'UM5002E',
             format(ERROR_CODE_CONFIG.UM5002E, error),
@@ -48,7 +47,7 @@ class UserDao {
    * @returns {Promise<any>} - user object as result | db exception
    */
   static async getUserByEmailId(emailId) {
-    logger.trace('Entered UserDao::getUserByEmailId Method Execution %s', emailId);
+    logger.trace('Enter UserDao:getUserByEmailId DAO, EmailId: %s', emailId);
     const params = {
       TableName: USER_TABLE,
       IndexName: USER_EMAIL_ID_INDEX,
@@ -59,11 +58,11 @@ class UserDao {
       const awsRequest = dynamoDb.query(params);
       awsRequest.promise().then(
         (response) => {
-          logger.trace('Exit UserDao::getUserByEmailId Method Execution with Result %o', response);
+          logger.trace('Exit UserDao:getUserByEmailId DAO, Result %o', response);
           resolve(response);
         },
         (error) => {
-          logger.error('In UserDao::getUserByEmailId, DB Error: %o', error);
+          logger.error('In UserDao:getUserByEmailId DAO, DB Error: %o', error);
           reject(new SystemException(
             'UM5002E',
             format(ERROR_CODE_CONFIG.UM5002E, error),
@@ -80,7 +79,7 @@ class UserDao {
    * @returns {Promise<object>} - result created user object | db exception
    */
   static async createUser(user) {
-    logger.trace('Entered UserDao::createUser Method Execution %o', user);
+    logger.trace('Enter UserDao:createUser DAO, User: %o', user);
     const params = {
       TableName: USER_TABLE,
       Item: {
@@ -91,11 +90,11 @@ class UserDao {
       const awsRequest = dynamoDb.put(params);
       awsRequest.promise().then(
         (response) => {
-          logger.trace('Exit UserDao::createUser Method Execution with Result %o', response);
+          logger.trace('Exit UserDao:createUser DAO, Result %o', response);
           resolve(user);
         },
         (error) => {
-          logger.error('In UserDao::createUser, DB Error: %o', error);
+          logger.error('In UserDao:createUser DAO, DB Error: %o', error);
           reject(new SystemException(
             'UM5002E',
             format(ERROR_CODE_CONFIG.UM5002E, error),
@@ -112,7 +111,7 @@ class UserDao {
    * @returns {Promise<object>} - result created user object | db exception
    */
   static async updateUser(user) {
-    logger.trace('Entered UserDao::updateUser Method Execution %o', user);
+    logger.trace('Enter UserDao:updateUser DAO, User: %o', user);
 
     // Constructing expression attribute values
     const userFields = ['username', 'fullName', 'password']
@@ -138,11 +137,11 @@ class UserDao {
       const awsRequest = dynamoDb.update(params);
       awsRequest.promise().then(
         (response) => {
-          logger.trace('Exit UserDao::updateUser Method Execution with Result %o', response);
+          logger.trace('Exit UserDao:updateUser DAO, Result %o', response);
           resolve(response);
         },
         (error) => {
-          logger.error('In UserDao::updateUser, DB Error: %o', error);
+          logger.error('In UserDao:updateUser DAO, DB Error: %o', error);
           reject(new SystemException(
             'UM5002E',
             format(ERROR_CODE_CONFIG.UM5002E, error),
@@ -156,10 +155,10 @@ class UserDao {
   /**
    * Method to delete user by id
    * @param {string} id
-   * @returns
+   * @returns {Promise<object>} - result deleted user object | db exception
    */
   static async deleteUser(id) {
-    logger.trace('Entered UserDao::deleteUser Method Execution %s', id);
+    logger.trace('Enter UserDao:deleteUser DAO, ID: %s', id);
 
     const params = {
       TableName: USER_TABLE,
@@ -172,11 +171,11 @@ class UserDao {
       const awsRequest = dynamoDb.delete(params);
       awsRequest.promise().then(
         (result) => {
-          logger.trace('Exit UserDao::deleteUser Method Execution with Result %o', result);
+          logger.trace('Exit UserDao:deleteUser DAO, Result %o', result);
           resolve(result);
         },
         (error) => {
-          logger.error('In UserDao::deleteUser, DB Error: %o', error);
+          logger.error('In UserDao:deleteUser DAO, DB Error: %o', error);
           reject(new SystemException(
             'UM5002E',
             format(ERROR_CODE_CONFIG.UM5002E, error),

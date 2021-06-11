@@ -18,16 +18,16 @@ class PasswordUtils {
    * @returns {Promise<object>} - Promise resolves hashValue or rejects SystemException
    */
   static hashPassword(plainPassword) {
-    logger.trace('Entered PasswordUtils::hashPassword Method Execution %s', plainPassword);
+    logger.trace('Enter PasswordUtils:hashPassword, Plain Password: %s', plainPassword);
 
     return new Promise((resolve, reject) => {
       try {
         const salt = bcrypt.genSaltSync(PASSWORD_SALT_ROUNDS);
         const hash = bcrypt.hashSync(plainPassword, salt);
-        logger.trace('Exit PasswordUtils::hashPassword Method Execution with Result %o', hash);
+        logger.trace('Exit PasswordUtils:hashPassword, Result %o', hash);
         resolve(hash);
       } catch (err) {
-        logger.error('In PasswordUtils::hashPassword, Password hasing: %o', err);
+        logger.error('In PasswordUtils:hashPassword, Password hasing: %o', err);
         reject(new SystemException(
           'UM5002E',
           format(ERROR_CODE_CONFIG.UM5001E, err),
@@ -43,18 +43,18 @@ class PasswordUtils {
    * @returns {Promise<boolean>} - Promise resolves true | false or rejects SystemException
    */
   static compare(plainPassword, hashPassword) {
-    logger.trace('Entered PasswordUtils::compare Method Execution with password: %s hashPassword%s', plainPassword, hashPassword);
+    logger.trace('Enter PasswordUtils:compare, Plain password: %s, Hash Password %s', plainPassword, hashPassword);
 
     return new Promise((resolve, reject) => {
       bcrypt.compare(plainPassword, hashPassword, (err, result) => {
         if (err) {
-          logger.error('In PasswordUtils::compare, password compare error: %o', err);
+          logger.error('In PasswordUtils:compare, password compare error: %o', err);
           reject(new SystemException(
             'UM5002E',
             format(ERROR_CODE_CONFIG.UM5001E, err),
           ));
         }
-        logger.trace('Exit PasswordUtils::hashPassword Method Execution with Return Value %o', result);
+        logger.trace('Exit PasswordUtils:compare, Result: %o', result);
         resolve(result);
       });
     });

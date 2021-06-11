@@ -14,7 +14,7 @@ const getUser = async (event = {}) => {
     const {
       id,
     } = event.pathParameters;
-    logger.trace('Entered UserApi::getUser Method Execution Id: %s Event %o', id, event);
+    logger.trace('Enter UserAPI:getUser Id: %s', id);
     const result = await UserService.getUser(id);
     response = {
       statusCode: STATUS_CODES.SUCCESS,
@@ -23,11 +23,10 @@ const getUser = async (event = {}) => {
         result,
       }),
     };
-    logger.debug('In UserApi::getUser, API Response: %o', response);
-    logger.trace('Exit UserMgmtAPI::getUser Method Execution');
+    logger.trace('Exit UserAPI:getUser Response: %o', response);
     return response;
   } catch (error) {
-    logger.error('In UserApi::getUser, %o', error);
+    logger.error('In UserAPI:getUser, %o', error);
     response = {
       statusCode: error.statusCode || STATUS_CODES.INTERNAL_SERVER_ERROR,
       body: JSON.stringify({
@@ -35,7 +34,6 @@ const getUser = async (event = {}) => {
         message: error.message,
       }),
     };
-    logger.debug('In UserApi::getUser, API Response: %o', response);
     return response;
   }
 };
@@ -49,7 +47,7 @@ const registerUser = async (event = {}) => {
   let response = {};
   try {
     userBean = JSON.parse(event.body);
-    logger.trace('Entered UserApi::registerUser Method Execution %o', userBean);
+    logger.trace('Enter UserAPI:registerUser %o', userBean);
     const result = await UserService.registerUser(userBean);
     response = {
       statusCode: STATUS_CODES.CREATED,
@@ -58,11 +56,10 @@ const registerUser = async (event = {}) => {
         result,
       }),
     };
-    logger.debug('In UserApi::registerUser, API Response %o', response);
-    logger.trace('Exit UserApi::registerUser Method Execution');
+    logger.trace('Exit UserAPI:registerUser Response: %o', response);
     return response;
   } catch (error) {
-    logger.error('In UserApi::registerUser, %o', error);
+    logger.error('In UserAPI:registerUser, %o', error);
     response = {
       statusCode: error.statusCode || STATUS_CODES.INTERNAL_SERVER_ERROR,
       body: JSON.stringify({
@@ -70,7 +67,6 @@ const registerUser = async (event = {}) => {
         message: error.message,
       }),
     };
-    logger.debug('In UserApi::registerUser, API Response: %o', response);
     return response;
   }
 };
@@ -84,7 +80,7 @@ const updateUser = async (event = {}) => {
   let response = {};
   try {
     userBean = JSON.parse(event.body);
-    logger.trace('Entered UserApi::updateUser Method Execution %o', userBean);
+    logger.trace('Enter UserAPI:updateUser  User: %o', userBean);
     const {
       id,
     } = event.pathParameters;
@@ -97,11 +93,10 @@ const updateUser = async (event = {}) => {
         result,
       }),
     };
-    logger.debug('In UserApi::updateUser, API Response %o', response);
-    logger.trace('Exit UserApi::updateUser Method Execution');
+    logger.trace('Exit UserAPI:updateUser Response: %o', response);
     return response;
   } catch (error) {
-    logger.error('In UserApi::updateUser, %o', error);
+    logger.error('In UserAPI:updateUser, %o', error);
     response = {
       statusCode: error.statusCode || STATUS_CODES.INTERNAL_SERVER_ERROR,
       body: JSON.stringify({
@@ -109,13 +104,12 @@ const updateUser = async (event = {}) => {
         message: error.message,
       }),
     };
-    logger.debug('In UserApi::updateUser, API Response: %o', response);
     return response;
   }
 };
 
 /**
- * Api to delete user by id
+ * API to delete user by id
  * @param {object} event
  * @returns {object} Response
  */
@@ -125,7 +119,7 @@ const deleteUser = async (event = {}) => {
     const {
       id,
     } = event.pathParameters;
-    logger.trace('Entered UserApi::deleteUser Method Execution %s', id);
+    logger.trace('Enter UserAPI:deleteUser  Id: %s', id);
 
     await UserService.deleteUser(id);
     response = {
@@ -134,11 +128,10 @@ const deleteUser = async (event = {}) => {
         success: true,
       }),
     };
-    logger.debug('In UserApi::deleteUser, API Response: %o', response);
-    logger.trace('Exit UserApi::deleteUser Method Execution');
+    logger.trace('Exit UserAPI:deleteUser Response: %o', response);
     return response;
   } catch (error) {
-    logger.error('In UserApi::deleteUser, %o', error);
+    logger.error('In UserAPI:deleteUser, %o', error);
     response = {
       statusCode: error.statusCode || STATUS_CODES.INTERNAL_SERVER_ERROR,
       body: JSON.stringify({
@@ -146,13 +139,12 @@ const deleteUser = async (event = {}) => {
         message: error.message,
       }),
     };
-    logger.debug('In UserApi::deleteUser, API Response: %o', response);
     return response;
   }
 };
 
 /**
- * Api to login user
+ * API to login user
  * @param {object} event
  * @returns {object} Response
  */
@@ -160,7 +152,7 @@ const loginUser = async (event = {}) => {
   let response = {};
   try {
     userBean = JSON.parse(event.body);
-    logger.trace('Entered UserApi::loginUser Method Execution %o', userBean);
+    logger.trace('Enter UserAPI:loginUser  User: %o', userBean);
 
     const result = await UserService.loginUser(userBean);
     response = {
@@ -170,11 +162,10 @@ const loginUser = async (event = {}) => {
         ...result,
       }),
     };
-    logger.debug('In UserApi::loginUser, API Response: %o', response);
-    logger.trace('Exit UserApi::loginUser Method Execution');
+    logger.trace('Exit UserAPI:loginUser Response: %o', response);
     return response;
   } catch (error) {
-    logger.error('In UserApi::loginUser, %o', error);
+    logger.error('In UserAPI:loginUser, %o', error);
     response = {
       statusCode: error.statusCode || STATUS_CODES.INTERNAL_SERVER_ERROR,
       body: JSON.stringify({
@@ -182,7 +173,6 @@ const loginUser = async (event = {}) => {
         message: error.message,
       }),
     };
-    logger.debug('In UserApi::loginUser, API Response: %o', response);
     return response;
   }
 };
