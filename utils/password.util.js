@@ -8,7 +8,7 @@ const logger = require('./logger.util');
 const format = require('./format.util');
 
 /**
- * Password Utils using bcrypt.
+ * Password Utils using bcryptjs.
  * bcrypt npm doc: https://www.npmjs.com/package/bcryptjs
  */
 class PasswordUtils {

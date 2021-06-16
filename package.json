@@ -28,6 +28,8 @@
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.23.4",
     "serverless-dotenv-plugin": "^3.9.0",
-    "serverless-offline": "^7.0.0"
+    "serverless-offline": "^7.0.0",
+    "serverless-vpc-discovery": "^3.0.0",
+    "serverless-vpc-plugin": "^1.0.3"
   }
 }

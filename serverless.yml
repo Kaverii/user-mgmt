@@ -1,5 +1,5 @@
 service: user-management
-frameworkVersion: '2'
+frameworkVersion: "2"
 
 provider:
   name: aws
@@ -13,7 +13,8 @@ provider:
     USER_TABLE: users-${self:provider.stage}
     LOG_LEVEL: ${env:LOG_LEVEL, 'trace'}
     USER_EMAIL_ID_INDEX: user_email_id_index
-    JWT_SECRET:  ${env:JWT_SECRET}
+    JWT_SECRET: ${env:JWT_SECRET}
+  endpointType: REGIONAL
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -23,7 +24,7 @@ provider:
         - dynamodb:PutItem
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
-      Resource: 
+      Resource:
         - "arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.USER_TABLE}"
         - "arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.USER_TABLE}/index/user_email_id_index"
 
@@ -67,20 +68,17 @@ functions:
 resources:
   Resources:
     UsersDynamoDbTable:
-      Type: 'AWS::DynamoDB::Table'
+      Type: "AWS::DynamoDB::Table"
       DeletionPolicy: Retain
       Properties:
         TableName: ${self:provider.environment.USER_TABLE}
         AttributeDefinitions:
-          - 
-            AttributeName: id
+          - AttributeName: id
             AttributeType: S
-          - 
-            AttributeName: emailId
+          - AttributeName: emailId
             AttributeType: S
         KeySchema:
-          - 
-            AttributeName: id
+          - AttributeName: id
             KeyType: HASH
         ProvisionedThroughput:
           ReadCapacityUnits: 1
@@ -91,7 +89,7 @@ resources:
               - AttributeName: emailId
                 KeyType: HASH
             Projection:
-              ProjectionType: 'ALL'
+              ProjectionType: "ALL"
             ProvisionedThroughput:
               ReadCapacityUnits: 1
               WriteCapacityUnits: 1
@@ -99,7 +97,17 @@ resources:
 plugins:
   - serverless-dotenv-plugin
   - serverless-offline
+  - serverless-vpc-discovery
 
 custom:
   dotenv:
     include: []
+  vpcDiscovery:
+    vpcName: "test1"
+    subnets:
+      - tagKey: Name
+        tagValues:
+          - "User Mgmt - test1 Private"
+    securityGroups:
+      - names:
+          - "default"
